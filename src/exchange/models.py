@@ -15,7 +15,7 @@ class Order:
 class Trade: 
     price: int
     qty: int
-    take_order_id: int
+    taker_order_id: int
     maker_order_id: int
     
 
