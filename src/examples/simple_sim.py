@@ -1,43 +1,44 @@
-# examples/simple_sim.py
-
-from exchange.models import Order
 from exchange.book import OrderBook
 from exchange.matcher import MatchingEngine
+from exchange.models import Order
+from exchange.models import Trade
 import time
 
-def print_state(label: str, engine: MatchingEngine, trades):
-    print(f"\n--- {label} ---")
-    print("trades:", trades)
-    print("top_of_book:", engine.top_of_book())
-    print("last_trade:", engine.last_trade())
 
-def main():
+#helper methods
+def make_engine():
     book = OrderBook()
-    engine = MatchingEngine(book)
+    return MatchingEngine(book), book
 
-    o1 = Order(order_id=1, side="BUY",  price=100, qty=10, timestamp=1)
-    t1 = engine.submit_order(o1)
-    print_state("BUY 10 @ 100", engine, t1)
+
+def show_book(book: OrderBook, engine: MatchingEngine):
+    print("Top of the book:", {
+        "bid": book.best_bid(),
+        "ask": book.best_ask()
+    })
+
+    print("Last Trade:", engine.last_trade())
+
+    print("Remaining levels:", {
+        "bids": book._bids,
+        "asks": book._asks
+    })
+
+
+def exact_match():
+    engine,book = make_engine()
     
-    time.sleep(1)
-
-    o2 = Order(order_id=2, side="SELL", price=105, qty=10, timestamp=2)
-    t2 = engine.submit_order(o2)
-    print_state("SELL 10 @ 105", engine, t2)
+    order_A = Order(order_id=1,side='BUY',price=100,qty=10,timestamp=int(time.time()))
+    trade_A = engine.submit_order(order_A)
+    show_book(book=book,engine=engine)
     
-    time.sleep(1)
-
-
-    o3 = Order(order_id=3, side="BUY",  price=105, qty=10, timestamp=3)
-    t3 = engine.submit_order(o3)
-    print_state("BUY 10 @ 105 (crosses)", engine, t3)
+    print("Waiting for order to get filled....")
+    time.sleep(2)
     
-    time.sleep(1)
+    order_B = Order(order_id=2,side='SELL',price=100,qty=10,timestamp=int(time.time()))
+    trade_B = engine.submit_order(order_B)
+    show_book(book=book,engine=engine)
     
-    o4 = Order(order_id=3, side="SELL",  price=100, qty=10, timestamp=3)
-    t4 = engine.submit_order(o4)
-    print_state("SELL 10 @ 100 (crosses)", engine, t4)
-
-
-if __name__ == "__main__":
-    main()
+exact_match()
+    
+    
