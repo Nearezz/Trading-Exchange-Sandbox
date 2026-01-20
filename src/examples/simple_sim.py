@@ -40,15 +40,53 @@ def exact_match():
     trade_A = engine.submit_order(order_A)
     show_book(book=book,engine=engine)
     
-    print("Waiting for order to get filled....")
+    print('-----------next order------------------')
     time.sleep(2)
     
     order_B = Order(order_id=next_id(),side='SELL',price=100,qty=10,timestamp=int(time.time()))
     trade_B = engine.submit_order(order_B)
     show_book(book=book,engine=engine)
     
-exact_match()
-time.sleep(2)
-print('adding order...')
-add_order()
+def no_cross(): 
+    engine,book = make_engine()
+    order_A = Order(order_id=next_id(),side='BUY',price=100,qty=10,timestamp=int(time.time()))
+    trade_A = engine.submit_order(order_A)
     
+    show_book(book=book,engine=engine)
+    print('-----------next order------------------')
+    time.sleep(2)
+    
+    order_B = Order(order_id=next_id(),side='BUY',price=100,qty=10,timestamp=int(time.time()))
+    trade_B = engine.submit_order(order_B)
+    show_book(book=book,engine=engine)
+    
+def price_priority(): 
+    engine,book = make_engine()
+    order_A = Order(order_id=next_id(),side='BUY',price=100,qty=10,timestamp=int(time.time()))
+    order_B = Order(order_id=next_id(),side='BUY',price=110,qty=10,timestamp=int(time.time()))
+    engine.submit_order(order_A)
+    engine.submit_order(order_B)
+    print('-----------showing book------------------')
+    show_book(book=book,engine=engine)
+
+def last_trade_price(): 
+    engine, book = make_engine()
+
+    order_A = Order(order_id=next_id(), side="BUY", price=100, qty=10, timestamp=int(time.time()))
+    engine.submit_order(order_A)
+
+    print("---- after BUY ----")
+    show_book(book, engine)
+
+    order_B = Order(order_id=next_id(), side="SELL", price=100, qty=10, timestamp=int(time.time()))
+    engine.submit_order(order_B)
+
+    print("---- after ASK ----")
+    show_book(book, engine)
+    trade:Trade = engine.last_trade()
+    
+    return trade.price
+
+
+price = last_trade_price()
+print(price)
