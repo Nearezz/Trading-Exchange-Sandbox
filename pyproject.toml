@@ -1,14 +1,15 @@
-[build-system]
-requires = ["setuptools>=68"]
-build-backend = "setuptools.build_meta"
-
-[project]
+[tool.poetry]
 name = "toy-exchange"
 version = "0.1.0"
-dependencies = []
+description = ""
+authors = ["Indranil <you@example.com>"]
+packages = [{ include = "exchange", from = "src" }]
 
-[tool.setuptools]
-package-dir = {"" = "src"}
+[tool.poetry.dependencies]
+python = ">=3.11,<3.13"
+streamlit = "^1.30.0"
+pandas = "^2.0.0"
 
-[tool.setuptools.packages.find]
-where = ["src"]
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
