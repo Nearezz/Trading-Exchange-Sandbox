@@ -9,7 +9,7 @@ class Order:
     side: Side
     price: int
     qty: int
-    timestamp: int
+    timestamp: str
 
 @dataclass
 class Trade: 

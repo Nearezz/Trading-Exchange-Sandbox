@@ -110,28 +110,30 @@ class OrderBook:
 
     def get_bids(self):
         """
-        Return aggregated bid levels (Level 2 view).
+        Return aggregated bid levels (Level 2 view), sorted high -> low.
 
         Output format:
             { price: total_quantity_at_price, ... }
         """
-        return {
+        d = {
             price: sum(order.qty for order in level)
             for price, level in self._bids.items()
         }
+        return dict(sorted(d.items(), reverse=True))
+
 
     def get_asks(self):
         """
-        Return aggregated ask levels (Level 2 view).
+        Return aggregated ask levels (Level 2 view), sorted low -> high.
 
         Output format:
             { price: total_quantity_at_price, ... }
         """
-        return {
+        d = {
             price: sum(order.qty for order in level)
             for price, level in self._asks.items()
         }
-
+        return dict(sorted(d.items()))
     def get_best_bid(self) -> tuple[int, int] | None:
         """
         Return the best bid level (highest bid price).
