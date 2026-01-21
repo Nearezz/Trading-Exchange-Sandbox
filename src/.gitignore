@@ -12,7 +12,7 @@ dist/
 venv/
 
 # macOS junk
-.DS_Store
+.DS_Stores
 
 # Editor junk
 .vscode/

@@ -1,5 +1,11 @@
 import streamlit as st
 import pandas as pd
+import sys
+from pathlib import Path
+
+sys.path.append(str(Path(__file__).resolve().parent / "src"))
+
+
 
 from exchange.book import OrderBook
 from exchange.matcher import MatchingEngine
@@ -211,7 +217,7 @@ def quick_actions(engine: MatchingEngine):
 # App
 # -----------------------------
 def main():
-    st.set_page_config(page_title="Toy Exchange", layout="wide")
+    st.set_page_config(page_title="Trading Exchange", layout="wide")
 
     # tighter spacing + more “terminal” feel
     st.markdown(
@@ -238,8 +244,8 @@ def main():
     # ---------- Header Bar ----------
     header = st.columns([1.3, 1.2, 0.7])
     with header[0]:
-        st.title("Toy Exchange")
-        st.caption("Limit-order toy exchange with top-of-book matching.")
+        st.title("Trading-Exchange-Sandbox")
+        st.caption("Limit-order exchange with top-of-book matching.")
 
     with header[1]:
         st.markdown("**Ticker**")

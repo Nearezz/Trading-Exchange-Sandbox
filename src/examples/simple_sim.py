@@ -4,7 +4,6 @@ from exchange.models import Order, Trade
 from exchange.utility import create_id,now_str
 import time
 
-
 # ---------- Helpers ----------
 
 def make_engine():

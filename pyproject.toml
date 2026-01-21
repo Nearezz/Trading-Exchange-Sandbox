@@ -1,7 +1,7 @@
 [tool.poetry]
-name = "toy-exchange"
+name = "trading-exchange-sandbox"
 version = "0.1.0"
-description = ""
+description = "Toy trading exchange + Streamlit UI"
 authors = ["Indranil <you@example.com>"]
 packages = [{ include = "exchange", from = "src" }]
 
